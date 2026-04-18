@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    background-color: #ffffff; /* רקע לבן כברירת מחדל לקצוות חלקים */
+    color: white; /* צבע טקסט ברירת מחדל לאזורים של התלת מימד */
+}
+
+/* Lenis Smooth Scroll Basic Styles */
+html.lenis {
+    height: auto;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+/* סקשנים רגילים של פתיח וסיום */
+.intro, .outro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff; /* רקע לבן נקי */
+    color: #050505; /* טקסט כהה לפתיח/סיום */
+    position: relative;
+    z-index: 10; 
+    text-align: center;
+    padding: 2rem;
+}
+
+.intro-content {
+    background: rgba(255, 255, 255, 0.8); /* קופסה בהירה וחצי שקופה */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 4rem;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05); /* צל עדין מאוד */
+    max-width: 800px;
+}
+
+.intro-content h1 {
+    font-size: 4.5rem;
+    margin-bottom: 1.5rem;
+    background: -webkit-linear-gradient(45deg, #0055ff, #ff00cc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none; /* מסיר את הצל השחור שהיה קודם */
+}
+
+.intro-content p {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+/* עטיפת האנימציה - מחזיקה את הקנבס והגלילה */
+.animation-wrapper {
+    position: relative;
+    background: #050505; /* הרקע של התלת מימד עדיין שחור עמוק */
+    overflow: hidden; /* מסתיר את התוכן שגולש לצדדים */
+    width: 100vw;
+}
+
+/* הקנבס ברקע האנימציה */
+.canvas-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 0;
+}
+
+#webgl-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    outline: none;
+}
+
+.scroll-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: nowrap;
+    width: fit-content; /* המכולה תתרחב לפי כמות השלבים */
+    height: 100vh;
+}
+
+/* כל שלב תופס רוחב של מסך שלם */
+.step {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0; /* מונע מהשלבים להתכווץ */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    opacity: 1; /* עכשיו נראה אותם נכנסים מהצד, אין צורך בטשטוש עכירות */
+}
+
+.content-box {
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 3rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    max-width: 800px;
+    transform: translateY(20px);
+    transition: transform 0.5s ease;
+}
+
+.step:hover .content-box {
+    transform: translateY(0px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.step h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 20px rgba(0,0,0,0.9);
+    background: -webkit-linear-gradient(45deg, #ff00cc, #3333ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.step p {
+    font-size: 1.5rem;
+    max-width: 600px;
+    text-shadow: 1px 1px 10px rgba(0,0,0,0.8);
+    line-height: 1.6;
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 768px) {
+    .step h1 {
+        font-size: 2.5rem;
+    }
+    .step p {
+        font-size: 1.2rem;
+    }
+}
