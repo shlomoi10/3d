@@ -1,378 +1,361 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 250" width="100%" height="100%">
-  <defs>
-    <!-- גרדיאנטים לשכבות הלוגו -->
-    <linearGradient id="gradTop" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff007a" />
-      <stop offset="100%" stop-color="#ff7b00" />
-    </linearGradient>
-    <linearGradient id="gradMid" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7928ca" />
-      <stop offset="100%" stop-color="#ff007a" />
-    </linearGradient>
-    <linearGradient id="gradBot" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00dfd8" />
-      <stop offset="100%" stop-color="#7928ca" />
-    </linearGradient>
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yesh Click - בניית אתרי תוכן וניהול</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Heebo:wght@300;400;500;700;900&display=swap');
 
-    <!-- מסיכת חיתוך: יוצרת חור בשוליים הימניים-תחתונים של העיגול (138,138) לקבלת מגרעת בשוליים -->
-    <mask id="cursorHoleMask">
-      <!-- שטח לבן = גלוי לחלוטין -->
-      <rect x="-100" y="-100" width="800" height="800" fill="#ffffff" />
-      <!-- שטח שחור = הופך לחור שקוף ומחסיר את הצורה בדיוק בשוליים -->
-      <g transform="translate(138, 138)">
-        <g class="mask-cursor">
-          <path d="M 0,0 L 0,17 L 4.8,12.5 L 9,20 L 11.5,18.5 L 7.3,11.2 L 12.5,11.2 Z" 
-                fill="#000000" 
-                stroke="#000000" 
-                stroke-width="1.8" 
-                stroke-linejoin="round" />
-        </g>
-      </g>
-    </mask>
-  </defs>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <style>
-    /* ייבוא פונט Cairo מ-Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&amp;display=swap');
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
 
-    .bg { fill: #0b0f19; rx: 16px; }
+        body {
+            font-family: 'Heebo', 'Assistant', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0b0f19;
+            color: #ffffff;
+        }
 
-    /* קבוצת הלוגו מתחילה לרחף רק לאחר סיום כל האינטראקציות וההפיכה לעיגול (בשנייה 6.5) */
-    .s-structure {
-      animation: floatS 4s ease-in-out infinite 6.5s;
-    }
+        /* Logo intro section */
+        .logo-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0b0f19;
+            z-index: 1000;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
 
-    .layer {
-      stroke: #ffffff;
-      stroke-width: 1px;
-      stroke-opacity: 0.35;
-    }
+        .logo-intro.fade-out {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
 
-    /* סנכרון אנימציות הלוגו */
-    .layer-top { 
-      fill: url(#gradTop); 
-      animation: assemble 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s forwards,
-                 mergeTop 0.8s cubic-bezier(0.25, 1, 0.5, 1) 3.2s forwards;
-    }
-    
-    .layer-mid { 
-      fill: url(#gradMid); 
-      animation: assemble 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s forwards,
-                 mergeMid 3.3s cubic-bezier(0.25, 1, 0.5, 1) 3.2s forwards;
-    }
+        .logo-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
 
-    /* עטיפת המסנן */
-    .layer-mid-filter-container {
-      animation: midFilterAnim 3.3s cubic-bezier(0.25, 1, 0.5, 1) 3.2s forwards;
-    }
+        .logo-container img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+        }
 
-    .layer-bot { 
-      fill: url(#gradBot); 
-      animation: assemble 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards,
-                 mergeBot 0.8s cubic-bezier(0.25, 1, 0.5, 1) 3.2s forwards;
-    }
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 7.5s forwards;
+            z-index: 1001;
+            text-align: center;
+            transition: opacity 0.3s ease;
+        }
 
-    .connector-wall-left {
-      animation: assemble 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards,
-                 mergeWallLeft 0.8s cubic-bezier(0.25, 1, 0.5, 1) 3.2s forwards;
-    }
-    .connector-wall-right {
-      animation: assemble 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards,
-                 mergeWallRight 0.8s cubic-bezier(0.25, 1, 0.5, 1) 3.2s forwards;
-    }
+        .scroll-indicator.hidden {
+            opacity: 0 !important;
+        }
 
-    .assemble-item {
-      opacity: 0;
-      transform-origin: 120px 185px;
-    }
+        .scroll-indicator span {
+            display: block;
+            font-size: 14px;
+            color: #818cf8;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
 
-    /* הצל של הרצפה */
-    .shadow {
-      fill: #000000;
-      fill-opacity: 0.6;
-      filter: blur(8px);
-      opacity: 0;
-      transform-origin: 120px 210px;
-      animation: shadowIntro 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-                 shadowMerge 1.0s cubic-bezier(0.25, 1, 0.5, 1) 3.2s forwards;
-    }
+        .scroll-indicator .arrow {
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid #ff007a;
+            border-bottom: 2px solid #ff007a;
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
 
-    /* טיפוגרפיה */
-    .brand-text {
-      font-family: 'Cairo', system-ui, -apple-system, sans-serif;
-    }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
 
-    .title-yesh, .subtitle {
-      opacity: 0;
-      animation: fadeIn 0.5s ease-out 1.2s forwards;
-    }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) rotate(45deg) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) rotate(45deg) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) rotate(45deg) translateY(-5px);
+            }
+        }
 
-    .title {
-      font-weight: 900;
-      font-size: 44px;
-      fill: #ffffff;
-    }
+        /* Main content */
+        .main-content {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
 
-    .subtitle {
-      font-weight: 600;
-      font-size: 13px;
-      fill: #818cf8;
-      letter-spacing: 4px;
-    }
+        .main-content.visible {
+            opacity: 1;
+        }
 
-    .title-click {
-      font-weight: 900;
-      font-size: 44px;
-      fill: #ff007a;
-      opacity: 0;
-      transform: scale(0.8);
-      transform-origin: 110px -15px;
-      animation: clickReveal 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
-    }
+        /* Hero section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0b0f19 0%, #1a1f2e 100%);
+        }
 
-    /* סמני עכבר וגלי קליק */
-    .cursor-group {
-      opacity: 0;
-      transform-origin: 0px 0px;
-      animation: cursorAction 2.0s ease-in-out 1.3s forwards;
-    }
+        .hero h1 {
+            font-family: 'Heebo', 'Assistant', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff007a 0%, #7928ca 50%, #00dfd8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .click-ripple {
-      opacity: 0;
-      fill: none;
-      stroke: #ff007a;
-      stroke-width: 2.5px;
-      transform-origin: 110px -15px;
-      animation: rippleEffect 0.5s ease-out 2.15s forwards;
-    }
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: #a0aec0;
+            max-width: 700px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
 
-    /* עכבר שני מגיע לשוליים גדול ובולט יותר (scale 1.2) */
-    .cursor-group-2 {
-      opacity: 0;
-      transform-origin: 0px 0px;
-      animation: cursorAction2 1.6s ease-in-out 4.6s forwards;
-    }
+        .cta-button {
+            display: inline-block;
+            padding: 16px 48px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, #ff007a 0%, #7928ca 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 0, 122, 0.3);
+        }
 
-    /* גל הקליק השני */
-    .click-ripple-2 {
-      opacity: 0;
-      fill: none;
-      stroke: #ff007a;
-      stroke-width: 2.5px;
-      transform-origin: 138px 138px;
-      animation: rippleEffect2 0.5s ease-out 5.45s forwards;
-    }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 122, 0.4);
+        }
 
-    /* מסיכת החיתוך הפנימית - מותאמת לגודל הלחיצה המכווץ החדש (scale 0.86) */
-    .mask-cursor {
-      opacity: 0;
-      transform: scale(0);
-      transform-origin: 0px 0px;
-      animation: maskCursorAppear 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) 5.5s forwards;
-    }
+        /* Services section */
+        .services {
+            padding: 100px 20px;
+            background: #0b0f19;
+        }
 
-    /* --- הגדרות קיפריימס --- */
-    
-    @keyframes mergeTop {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(45px); opacity: 0; }
-    }
+        .section-title {
+            text-align: center;
+            font-family: 'Heebo', 'Assistant', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 60px;
+            color: #ffffff;
+        }
 
-    @keyframes mergeBot {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-45px); opacity: 0; }
-    }
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
 
-    /* הילה והשתקפות */
-    @keyframes midFilterAnim {
-      0% { filter: drop-shadow(0 0 0px rgba(255,0,122,0)); }
-      12% { filter: drop-shadow(0 0 10px rgba(255, 0, 122, 0.75)); }
-      30%, 70% { filter: drop-shadow(0 0 15px rgba(255, 0, 122, 0.85)); }
-      85%, 100% { filter: drop-shadow(0 0 20px rgba(255, 0, 122, 0.95)); }
-    }
+        .service-card {
+            background: linear-gradient(135deg, #1a1f2e 0%, #252b3d 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
 
-    /* מעבר חלק במיוחד מהריבוע לעיגול (מורפינג רך בין 70% ל-92%) */
-    @keyframes mergeMid {
-      0% { 
-        d: path("M 120,100 L 175,120 L 120,140 L 65,120 Z");
-        fill: url(#gradMid); 
-      }
-      12% { 
-        d: path("M 120,100 L 175,120 L 120,140 L 65,120 Z");
-        fill: url(#gradTop); 
-      }
-      30%, 70% { 
-        d: path("M 80,80 L 160,80 L 160,160 L 80,160 Z");
-        fill: #ff007a; 
-      }
-      92%, 100% { 
-        d: path("M 120,80 C 142,80 160,98 160,120 C 160,142 142,160 120,160 C 98,160 80,142 80,120 C 80,98 98,80 120,80 Z");
-        fill: #ff007a; 
-      }
-    }
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 0, 122, 0.3);
+        }
 
-    @keyframes mergeWallLeft {
-      0% { transform: translateY(0) scaleY(1); opacity: 1; }
-      100% { transform: translateY(22.5px) scaleY(0); opacity: 0; }
-    }
+        .service-card h3 {
+            font-family: 'Heebo', 'Assistant', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ff007a;
+        }
 
-    @keyframes mergeWallRight {
-      0% { transform: translateY(0) scaleY(1); opacity: 1; }
-      100% { transform: translateY(-22.5px) scaleY(0); opacity: 0; }
-    }
+        .service-card p {
+            color: #a0aec0;
+            line-height: 1.7;
+        }
 
-    @keyframes shadowMerge {
-      0% { transform: scale(1); opacity: 0.6; }
-      40% { transform: scale(0.82); opacity: 0.45; }
-      100% { transform: scale(0.5); opacity: 0; }
-    }
+        /* Contact section */
+        .contact {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #1a1f2e 0%, #0b0f19 100%);
+            text-align: center;
+        }
 
-    /* העכבר השני מגיע בקנה מידה 1.2 ומבצע קליק ל-0.86 */
-    @keyframes cursorAction2 {
-      0% {
-        transform: translate(170px, 180px) scale(0);
-        opacity: 0;
-      }
-      35% {
-        transform: translate(138px, 138px) scale(1.2); /* הגעה בגודל בולט */
-        opacity: 1;
-      }
-      50% {
-        transform: translate(138px, 138px) scale(1.2);
-      }
-      55% {
-        transform: translate(138px, 138px) scale(0.86); /* לחיצה מכווצת */
-        opacity: 1;
-      }
-      58%, 100% {
-        transform: translate(138px, 138px) scale(0.86);
-        opacity: 0;
-      }
-    }
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-    /* הופעת החיתוך (החור) במסכה בדיוק ברגע הלחיצה בשוליים (scale 0.86) */
-    @keyframes maskCursorAppear {
-      0% {
-        transform: scale(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(0.86); /* מותאם מושלם לקנה מידה של הלחיצה */
-        opacity: 1;
-      }
-    }
+        .contact-email {
+            display: inline-block;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: #00dfd8;
+            text-decoration: none;
+            padding: 20px 40px;
+            border: 2px solid #00dfd8;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
 
-    @keyframes rippleEffect2 {
-      0% { transform: scale(0); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: scale(4.5); opacity: 0; }
-    }
+        .contact-email:hover {
+            background: #00dfd8;
+            color: #0b0f19;
+            box-shadow: 0 10px 30px rgba(0, 223, 216, 0.3);
+        }
 
-    /* קיפריימס בסיסיים */
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
+        /* Footer */
+        footer {
+            padding: 40px 20px;
+            background: #0b0f19;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-    @keyframes clickReveal {
-      to { opacity: 1; transform: scale(1); }
-    }
+        footer p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
 
-    @keyframes cursorAction {
-      0% { transform: translate(180px, 45px); opacity: 0; }
-      40% { transform: translate(110px, -15px); opacity: 1; }
-      44% { transform: translate(110px, -15px) scale(1); }
-      48% { transform: translate(110px, -15px) scale(0.75); }
-      52% { transform: translate(110px, -15px) scale(1); }
-      78% { transform: translate(110px, -15px) scale(1); opacity: 1; }
-      100% { transform: translate(130px, 20px) scale(1); opacity: 0; }
-    }
+        /* Enable scrolling after animation */
+        body.scroll-enabled {
+            overflow: auto;
+        }
 
-    @keyframes rippleEffect {
-      0% { transform: scale(0); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: scale(4.5); opacity: 0; }
-    }
+        body.scroll-enabled .logo-intro {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo intro section -->
+    <div class="logo-intro" id="logoIntro">
+        <div class="logo-container">
+            <img src="logo.svg" alt="Yesh Click Logo">
+        </div>
+    </div>
 
-    @keyframes assemble {
-      0% { transform: translateY(100px) scaleY(0.4) scaleX(0.8); opacity: 0; }
-      100% { transform: translateY(0) scaleY(1) scaleX(1); opacity: 1; }
-    }
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <span>גלול למטה</span>
+        <div class="arrow"></div>
+    </div>
 
-    @keyframes shadowIntro {
-      0% { transform: scale(0); opacity: 0; }
-      100% { transform: scale(1); opacity: 0.6; }
-    }
+    <!-- Main content -->
+    <div class="main-content" id="mainContent">
+        <!-- Hero section -->
+        <section class="hero">
+            <h1>בניית אתרי תוכן וניהול</h1>
+            <p>אנחנו מספקים פתרונות מקצה לקצה לבניית אתרי תוכן מתקדמים, ניהול מערכות, ופיתוח דיגיטלי מקצועי</p>
+            <a href="mailto:office@yesh-click.com" class="cta-button">צור קשר</a>
+        </section>
 
-    @keyframes floatS {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-  </style>
+        <!-- Services section -->
+        <section class="services">
+            <h2 class="section-title">השירותים שלנו</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>בניית אתרי תוכן</h3>
+                    <p>פיתוח אתרי תוכן מקצועיים ומותאמים אישית, עם ממשק ניהול ידידותי ועיצוב מודרני</p>
+                </div>
+                <div class="service-card">
+                    <h3>ניהול מערכות</h3>
+                    <p>ניהול ותחזוקה שוטפת של מערכות דיגיטליות, כולל עדכונים, גיבויים ואופטימיזציה</p>
+                </div>
+                <div class="service-card">
+                    <h3>פיתוח דיגיטלי</h3>
+                    <p>פיתוח אפליקציות ופתרונות דיגיטליים מתקדמים המותאמים לצרכים העסקיים שלכם</p>
+                </div>
+            </div>
+        </section>
 
-  <!-- רקע כהה -->
-  <rect width="100%" height="100%" class="bg" />
+        <!-- Contact section -->
+        <section class="contact">
+            <div class="contact-content">
+                <h2 class="section-title">צור קשר</h2>
+                <p style="color: #a0aec0; font-size: 1.2rem; margin-bottom: 20px;">אנחנו כאן לעזור לך להגשים את החזון הדיגיטלי שלך</p>
+                <a href="mailto:office@yesh-click.com" class="contact-email">office@yesh-click.com</a>
+            </div>
+        </section>
 
-  <!-- קבוצת-על המקטינה את הלוגו ל-77% ומצמידה אותו קרוב ומיושר אנכית לחלוטין למרכז גוש הטקסט -->
-  <g transform="translate(92, 38) scale(0.77)">
-    <!-- צל הרצפה -->
-    <ellipse cx="120" cy="210" rx="45" ry="12" class="shadow" />
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Yesh Click. כל הזכויות שמורות.</p>
+        </footer>
+    </div>
 
-    <!-- מבנה ה-S מונפש בהדרגה -->
-    <g class="s-structure">
-      <!-- 1. שכבה תחתונה -->
-      <path d="M 120,145 L 175,165 L 120,185 L 65,165 Z" class="layer layer-bot assemble-item" />
-      
-      <!-- 2. קיר ימני קדמי -->
-      <path d="M 120,140 L 175,120 L 175,165 L 120,185 Z" class="connector-wall connector-wall-right assemble-item" />
-      
-      <!-- 3. השכבה האמצעית (מקבלת מסיכת חיתוך פעילה) -->
-      <g class="layer-mid-filter-container">
-        <path d="M 120,100 L 175,120 L 120,140 L 65,120 Z" class="layer layer-mid assemble-item" mask="url(#cursorHoleMask)" />
-      </g>
-      
-      <!-- 4. קיר שמאלי אחורי -->
-      <path d="M 65,75 L 120,55 L 120,100 L 65,120 Z" class="connector-wall connector-wall-left assemble-item" />
-      
-      <!-- 5. שכבה עליונה -->
-      <path d="M 120,55 L 175,75 L 120,95 L 65,75 Z" class="layer layer-top assemble-item" />
+    <script>
+        // Enable scrolling after logo animation completes (7 seconds)
+        setTimeout(() => {
+            document.body.classList.add('scroll-enabled');
+            document.getElementById('logoIntro').classList.add('fade-out');
+            document.getElementById('mainContent').classList.add('visible');
+        }, 7000);
 
-      <!-- גל אפקט הקליק השני ממוקם בשוליים (138, 138) -->
-      <circle cx="138" cy="138" r="5" class="click-ripple-2" />
+        // Hide scroll indicator when reaching the bottom
+        window.addEventListener('scroll', () => {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            const scrollTop = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
 
-      <!-- קבוצת סמן העכבר השני החיצוני (גדול יותר ועקבי) -->
-      <g class="cursor-group-2">
-        <path d="M 0,0 L 0,17 L 4.8,12.5 L 9,20 L 11.5,18.5 L 7.3,11.2 L 12.5,11.2 Z" 
-              fill="#ffffff" 
-              stroke="#0b0f19" 
-              stroke-width="1.8" 
-              stroke-linejoin="round" />
-      </g>
-    </g>
-  </g>
-
-  <!-- קבוצת טקסט לצד הלוגו (ללא שינוי, מיושרת לחלוטין) -->
-  <g transform="translate(235, 132)" class="brand-text">
-    
-    <!-- המילה yesh -->
-    <text class="title title-yesh" x="0" y="0">yesh</text>
-    
-    <!-- המילה click (צמודה ללא רווח) -->
-    <text class="title title-click" x="92" y="0">click</text>
-    
-    <!-- דומיין האתר -->
-    <text class="subtitle" x="3" y="26">yesh-click.com</text>
-
-    <!-- גל אפקט הקליק הראשון -->
-    <circle cx="110" cy="-15" r="5" class="click-ripple" />
-
-    <!-- קבוצת סמן העכבר הראשון -->
-    <g class="cursor-group">
-      <path d="M 0,0 L 0,17 L 4.8,12.5 L 9,20 L 11.5,18.5 L 7.3,11.2 L 12.5,11.2 Z" 
-            fill="#ffffff" 
-            stroke="#0b0f19" 
-            stroke-width="1.8" 
-            stroke-linejoin="round" />
-    </g>
-
-  </g>
-</svg>
+            if (scrollTop + windowHeight >= documentHeight - 50) {
+                scrollIndicator.classList.add('hidden');
+            } else {
+                scrollIndicator.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
