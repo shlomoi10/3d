@@ -1,8 +1,30 @@
+import { useEffect } from 'react'
+import Lenis from 'lenis'
 import './App.css'
-import logo from './assets/logo.svg'
+import logo from './assets/logofull.svg'
 import { Palette, Laptop, Smartphone } from 'lucide-react'
 
 function App() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 2.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'rtl',
+      gestureDirection: 'vertical',
+      smooth: true,
+    })
+
+    function raf(time) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+
+    return () => {
+      lenis.destroy()
+    }
+  }, [])
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       {/* Navigation */}
@@ -75,8 +97,8 @@ function App() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-white mb-12 text-center">השירותים שלנו</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/50 transition">
-              <div className="text-purple-400 mb-4">
+            <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
+              <div className="text-[#3356EE] mb-4">
                 <Palette size={48} />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">עיצוב UI/UX</h3>
@@ -84,8 +106,8 @@ function App() {
                 עיצוב ממשקים יפים ואינטואיטיביים שמספקים חוויית משתמש מעולה.
               </p>
             </div>
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/50 transition">
-              <div className="text-purple-400 mb-4">
+            <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
+              <div className="text-[#3356EE] mb-4">
                 <Laptop size={48} />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">פיתוח Web</h3>
@@ -93,8 +115,8 @@ function App() {
                 פיתוח אתרים ואפליקציות ווב מודרניות עם הטכנולוגיות החדשות ביותר.
               </p>
             </div>
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/50 transition">
-              <div className="text-purple-400 mb-4">
+            <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
+              <div className="text-[#3356EE] mb-4">
                 <Smartphone size={48} />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">פיתוח Mobile</h3>
