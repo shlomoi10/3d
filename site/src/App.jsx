@@ -3,7 +3,7 @@ import Lenis from 'lenis'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import './App.css'
 import logo from './assets/logofull.svg'
-import { Palette, Laptop, Smartphone, Mail, MessageCircle } from 'lucide-react'
+import { Database, Users, Link, CreditCard, Server, RefreshCw, Mail, MessageCircle } from 'lucide-react'
 
 function App() {
 
@@ -35,7 +35,6 @@ function App() {
           <img src={logo} alt="Logo" className="h-10 w-auto" />
           <div className="flex gap-6">
             <a href="#hero" className="text-gray-300 hover:text-white transition">ראשי</a>
-            <a href="#about" className="text-gray-300 hover:text-white transition">אודות</a>
             <a href="#services" className="text-gray-300 hover:text-white transition">שירותים</a>
             <a href="#contact" className="text-gray-300 hover:text-white transition">צור קשר</a>
           </div>
@@ -54,51 +53,14 @@ function App() {
             />
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            בנינו את העתיד
+            פתרונות דיגיטליים מקצה לקצה
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            פתרונות דיגיטליים מתקדמים לעסק שלך
+            ניהול תוכן, CRM, חיבור למערכות חיצוניות, סליקה ותשלומים
           </p>
-          <button className="bg-[#3356EE] hover:bg-[#2a4bc9] text-white px-8 py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105">
+          <a href="#contact" className="bg-[#3356EE] hover:bg-[#2a4bc9] text-white px-8 py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 inline-block">
             צור קשר
-          </button>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-8 text-center">אודותינו</h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-gray-300 text-lg">
-              <p className="mb-4">
-                אנחנו צוות של מפתחים ומעצבים שמתמחים ביצירת חוויות דיגיטליות יוצאות דופן.
-              </p>
-              <p>
-                המטרה שלנו היא לעזור לעסקים לצמוח ולהצליח בעולם הדיגיטלי המתפתח.
-              </p>
-            </div>
-            <div className="bg-[#3356EE]/20 rounded-2xl p-8 border border-[#3356EE]/30">
-              <div className="grid grid-cols-2 gap-6 text-center">
-                <div>
-                  <div className="text-4xl font-bold text-white">100+</div>
-                  <div className="text-gray-300">פרויקטים</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-white">50+</div>
-                  <div className="text-gray-300">לקוחות</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-white">5+</div>
-                  <div className="text-gray-300">שנות ניסיון</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-white">24/7</div>
-                  <div className="text-gray-300">תמיכה</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </a>
         </div>
       </section>
 
@@ -109,29 +71,56 @@ function App() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
               <div className="text-[#3356EE] mb-4">
-                <Palette size={48} />
+                <Database size={48} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">עיצוב UI/UX</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">ניהול תוכן</h3>
               <p className="text-gray-300">
-                עיצוב ממשקים יפים ואינטואיטיביים שמספקים חוויית משתמש מעולה.
+                מערכות ניהול תוכן (CMS) מותאמות אישית לצרכי העסק שלך.
               </p>
             </div>
             <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
               <div className="text-[#3356EE] mb-4">
-                <Laptop size={48} />
+                <Users size={48} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">פיתוח Web</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">CRM ולקוחות</h3>
               <p className="text-gray-300">
-                פיתוח אתרים ואפליקציות ווב מודרניות עם הטכנולוגיות החדשות ביותר.
+                מערכות ניהול לקוחות ו-CRM מתקדמות לניהול יעיל.
               </p>
             </div>
             <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
               <div className="text-[#3356EE] mb-4">
-                <Smartphone size={48} />
+                <Link size={48} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">פיתוח Mobile</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">חיבור מערכות</h3>
               <p className="text-gray-300">
-                פיתוח אפליקציות מובייל לאנדרואיד ואייפון.
+                חיבור למערכות חיצוניות ואינטגרציה מלאה.
+              </p>
+            </div>
+            <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
+              <div className="text-[#3356EE] mb-4">
+                <CreditCard size={48} />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">סליקה ותשלומים</h3>
+              <p className="text-gray-300">
+                חיבור לספקי סליקה ומערכות תשלום מאובטחות.
+              </p>
+            </div>
+            <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
+              <div className="text-[#3356EE] mb-4">
+                <Server size={48} />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">אחסון שרתים</h3>
+              <p className="text-gray-300">
+                אחסון מקצועי וניהול שרתים לפרויקטים שלך.
+              </p>
+            </div>
+            <div className="bg-gray-900/50 p-8 rounded-2xl border border-[#3356EE]/20 hover:border-[#3356EE]/50 transition">
+              <div className="text-[#3356EE] mb-4">
+                <RefreshCw size={48} />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">עדכונים תקופתיים</h3>
+              <p className="text-gray-300">
+                תחזוקה שוטפת ועדכונים תקופתיים למערכות.
               </p>
             </div>
           </div>
