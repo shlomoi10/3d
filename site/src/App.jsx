@@ -1,6 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, lazy, Suspense } from 'react'
 import Lenis from 'lenis'
-import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import './App.css'
 import logo from './assets/logofull.svg'
 import { Database, Users, Link, CreditCard, Server, RefreshCw, Mail, MessageCircle } from 'lucide-react'
@@ -29,6 +28,8 @@ function FooterBar() {
     </footer>
   )
 }
+
+const LottieAnimation = lazy(() => import('@lottiefiles/dotlottie-react').then(m => ({ default: m.DotLottieReact })))
 
 function App() {
   const topLayerRef = useRef(null)
@@ -105,12 +106,14 @@ function App() {
         {/* Bottom layer (second page) */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#060A12] via-[#0B1020] to-[#060A12] flex items-end justify-center">
           <div className="pb-28">
-            <DotLottieReact
-              src="/logo.json"
-              loop
-              autoplay
-              className="w-72 h-72 md:w-96 md:h-96"
-            />
+            <Suspense fallback={<div className="w-72 h-72 md:w-96 md:h-96"></div>}>
+              <LottieAnimation
+                src="/logo.json"
+                loop
+                autoplay
+                className="w-72 h-72 md:w-96 md:h-96"
+              />
+            </Suspense>
           </div>
         </div>
 
@@ -125,12 +128,14 @@ function App() {
             <section id="hero" className="min-h-screen flex items-center justify-center">
               <div className="text-center px-6">
                 <div className="mb-8 flex justify-center">
-                  <DotLottieReact
-                    src="/logo.json"
-                    loop
-                    autoplay
-                    className="w-64 h-64 md:w-80 md:h-80"
-                  />
+                  <Suspense fallback={<div className="w-64 h-64 md:w-80 md:h-80"></div>}>
+                    <LottieAnimation
+                      src="/logo.json"
+                      loop
+                      autoplay
+                      className="w-64 h-64 md:w-80 md:h-80"
+                    />
+                  </Suspense>
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
                   פתרונות דיגיטליים מקצה לקצה
