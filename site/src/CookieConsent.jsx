@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import ReactGA from 'react-ga4'
 import Clarity from '@microsoft/clarity'
 
 function CookieConsent() {
@@ -10,8 +9,15 @@ function CookieConsent() {
     if (!consent) {
       setIsVisible(true)
     } else if (consent === 'accepted') {
-      // Initialize analytics if already consented
-      ReactGA.initialize('G-CKH3ZJXHSD')
+      // Update consent if already consented
+      if (window.gtag) {
+        window.gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage': 'granted'
+        })
+      }
       Clarity.init('wx0osaogjt')
     }
   }, [])
@@ -19,11 +25,17 @@ function CookieConsent() {
   const handleAccept = () => {
     localStorage.setItem('cookieConsent', 'accepted')
     setIsVisible(false)
-    // Initialize analytics
-    ReactGA.initialize('G-CKH3ZJXHSD')
+    // Update Google consent
+    if (window.gtag) {
+      window.gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted'
+      })
+    }
+    // Initialize Clarity
     Clarity.init('wx0osaogjt')
-    // Send initial pageview
-    ReactGA.send({ hitType: 'pageview', page: window.location.pathname, title: document.title })
   }
 
   if (!isVisible) return null
