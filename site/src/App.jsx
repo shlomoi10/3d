@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import './App.css'
 import logo from './assets/logofull.svg'
 import { Database, Users, Link, CreditCard, Server, RefreshCw, Mail, MessageCircle } from 'lucide-react'
+import CookieConsent from './CookieConsent'
 
 function NavBar({ logoSrc }) {
   return (
@@ -97,6 +98,7 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <NavBar logoSrc={logo} />
       <FooterBar />
+      <CookieConsent />
 
       {/* Scroll rail: defines the *only* scroll range (top page + one extra viewport for reveal) */}
       <div style={{ height: railHeight ?? '200vh' }}></div>
