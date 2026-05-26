@@ -22,6 +22,8 @@ function CookieConsent() {
     // Initialize analytics
     ReactGA.initialize('G-CKH3ZJXHSD')
     Clarity.init('wx0osaogjt')
+    // Send initial pageview
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname, title: document.title })
   }
 
   if (!isVisible) return null
