@@ -7,9 +7,9 @@ import CookieConsent from './CookieConsent'
 
 function NavBar({ logoSrc }) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-[#3356EE]/20">
+    <nav aria-label="ניווט ראשי של יש קליק" className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-[#3356EE]/20">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-        <img src={logoSrc} alt="Logo" className="h-10 w-auto" />
+        <img src={logoSrc} alt="יש קליק - Yesh Click" className="h-10 w-auto" />
         <div className="flex gap-6">
           <a href="#hero" className="text-gray-300 hover:text-white transition">ראשי</a>
           <a href="#services" className="text-gray-300 hover:text-white transition">שירותים</a>
@@ -139,6 +139,9 @@ function App() {
                     />
                   </Suspense>
                 </div>
+                <p className="text-lg md:text-xl font-semibold text-[#8EA0FF] mb-3">
+                  יש קליק | Yesh Click
+                </p>
                 <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
                   פתרונות דיגיטליים מקצה לקצה
                 </h1>

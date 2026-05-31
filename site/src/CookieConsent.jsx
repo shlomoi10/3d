@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react'
 import Clarity from '@microsoft/clarity'
 
 function CookieConsent() {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(() => localStorage.getItem('cookieConsent') !== 'accepted')
 
   useEffect(() => {
     const consent = localStorage.getItem('cookieConsent')
-    if (!consent) {
-      setIsVisible(true)
-    } else if (consent === 'accepted') {
+    if (consent === 'accepted') {
       // Update consent if already consented
       if (window.gtag) {
         window.gtag('consent', 'update', {
