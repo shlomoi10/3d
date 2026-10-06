@@ -8,6 +8,7 @@
     <meta name="description" content="יש קליק (Yesh Click) - פיתוח אתרים ומערכות לעסקים: ניהול תוכן (CMS), CRM, אינטגרציות למערכות חיצוניות, סליקה ותשלומים, אחסון ותחזוקה שוטפת." />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#3356EE" />
+    <meta name="application-name" content="יש קליק" />
     <link rel="canonical" href="https://yesh-click.com/" />
 
     <!-- Google tag (gtag.js) with consent mode -->
@@ -29,7 +30,7 @@
       gtag('config', 'G-CKH3ZJXHSD');
     </script>
 
-    <meta property="og:site_name" content="יש קליק | Yesh Click" />
+    <meta property="og:site_name" content="יש קליק" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://yesh-click.com/" />
     <meta property="og:title" content="יש קליק - פיתוח אתרים ומערכות | Yesh Click" />
@@ -49,6 +50,7 @@
         "@graph": [
           {
             "@type": "Organization",
+            "@id": "https://yesh-click.com/#organization",
             "name": "יש קליק",
             "alternateName": "Yesh Click",
             "url": "https://yesh-click.com/",
@@ -58,15 +60,18 @@
           },
           {
             "@type": "WebSite",
-            "name": "יש קליק - פיתוח אתרים ומערכות",
-            "alternateName": "Yesh Click - Websites & Systems",
+            "@id": "https://yesh-click.com/#website",
+            "name": "יש קליק",
+            "alternateName": [
+              "Yesh Click",
+              "יש קליק - פיתוח אתרים ומערכות",
+              "Yesh Click - Websites & Systems",
+              "yesh-click.com"
+            ],
             "url": "https://yesh-click.com/",
             "inLanguage": ["he", "en"],
             "publisher": {
-              "@type": "Organization",
-              "name": "יש קליק",
-              "alternateName": "Yesh Click",
-              "url": "https://yesh-click.com/"
+              "@id": "https://yesh-click.com/#organization"
             }
           }
         ]
