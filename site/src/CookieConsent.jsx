@@ -41,21 +41,17 @@ function CookieConsent() {
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-t border-[#3356EE]/20 p-4">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-gray-300 text-sm md:text-base text-center md:text-right">
-          אנו משתמשים בעוגיות כדי לשפר את חוויית המשתמש ולנתח את השימוש באתר.
-          <span className="block md:inline md:mr-2">
-            לחץ על "קבל" כדי לאשר את השימוש בעוגיות.
-          </span>
-        </p>
-        <button
-          onClick={handleAccept}
-          className="bg-[#3356EE] hover:bg-[#2a4bc9] text-white px-6 py-2 rounded-lg font-semibold transition transform hover:scale-105 whitespace-nowrap"
-        >
-          קבל
-        </button>
-      </div>
+    <div className="fixed bottom-4 inset-x-4 md:inset-x-auto md:left-6 md:max-w-md z-50 bg-white/95 backdrop-blur-md border border-slate-900/10 rounded-2xl shadow-2xl shadow-slate-900/10 p-5">
+      <p className="text-slate-600 text-sm leading-relaxed">
+        אנו משתמשים בעוגיות כדי לשפר את חוויית המשתמש ולנתח את השימוש באתר.
+        לחיצה על "קבל" מאשרת את השימוש בעוגיות.
+      </p>
+      <button
+        onClick={handleAccept}
+        className="mt-4 w-full bg-[#3356EE] hover:bg-[#2745C9] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+      >
+        קבל
+      </button>
     </div>
   )
 }

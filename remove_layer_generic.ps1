@@ -4,6 +4,9 @@
 # בקשת נתיב הקובץ מהמשתמש
 $FilePath = Read-Host "הכנס נתיב קובץ JSON"
 
+# ניקוי מירכאות בתחילת ובסוף הנתיב אם קיימות
+$FilePath = $FilePath.Trim("`"'")
+
 # בדיקה שהקובץ קיים
 if (-not (Test-Path $FilePath)) {
     Write-Host "הקובץ לא קיים: $FilePath" -ForegroundColor Red
