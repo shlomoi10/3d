@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import './App.css'
 import logoIcon from './assets/logo.png'
 import logoFull from './assets/logofull.svg'
+import logoInk from './assets/logo-ink.svg'
 import {
   Database, Users, Link2, CreditCard, Server, RefreshCw,
   Mail, MessageCircle, ArrowUpLeft, Menu, X,
@@ -153,11 +154,8 @@ function NavBar({ onNavigate }) {
   return (
     <header aria-label="ניווט ראשי של יש קליק" className={`fixed top-0 inset-x-0 z-50 border-b transition-colors duration-300 ${scrolled || open ? 'bg-[#F3EFE7]/95 backdrop-blur-md border-[#17150F]/15' : 'bg-transparent border-transparent'}`}>
       <div className="max-w-[1240px] mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
-        <a href="#hero" onClick={(e) => go(e, '#hero')} className="flex items-center gap-3">
-          <img src={logoIcon} alt="יש קליק - Yesh Click" className="h-8 w-8" />
-          <span className="text-lg font-bold tracking-tight text-[#17150F]">
-            יש<span className="text-[#3356EE]">קליק</span>
-          </span>
+        <a href="#hero" onClick={(e) => go(e, '#hero')} className="flex items-center">
+          <img src={logoInk} alt="יש קליק - Yesh Click" className="h-10 w-auto" />
         </a>
 
         <nav className="hidden md:flex items-center gap-7">
