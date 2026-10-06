@@ -1,27 +1,55 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: 'Heebo', ui-sans-serif, system-ui, sans-serif;
+:root {
+  --paper: #f3efe7;
+  --ink: #17150f;
+  --blue: #3356ee;
+  --line: rgba(23, 21, 15, 0.14);
 }
 
 body {
-  font-family: var(--font-sans);
-  background-color: #F7F6F2;
-  color: #0f172a;
+  font-family: 'Heebo', ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: #3356EE;
+  background: var(--blue);
   color: #fff;
 }
 
-.bg-grid {
-  background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
-  background-size: 26px 26px;
+.font-display {
+  font-family: 'Frank Ruhl Libre', 'Heebo', serif;
 }
 
-.bg-grid-dark {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
-  background-size: 26px 26px;
+.font-mono-label {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* Seamless marquee — duplicate content and slide by exactly one copy */
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-rtl 30s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Faint blueprint dots for hero */
+.bg-dots {
+  background-image: radial-gradient(rgba(23, 21, 15, 0.10) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.bg-dots-dark {
+  background-image: radial-gradient(rgba(243, 239, 231, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
